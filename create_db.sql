@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 173.201.136.224
--- Generation Time: Sep 22, 2011 at 03:08 PM
+-- Generation Time: Sep 22, 2011 at 03:23 PM
 -- Server version: 5.0.91
 -- PHP Version: 5.1.6
 
@@ -23,7 +23,8 @@ CREATE TABLE `exercise` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(30) NOT NULL,
   `type` varchar(30) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
 
 --
@@ -54,6 +55,7 @@ INSERT INTO `exercise` VALUES(27, 'Pec Deck', 'Chest');
 
 CREATE TABLE `weights_set` (
   `id` int(11) NOT NULL,
+  `order` int(11) NOT NULL,
   `workout_exercise_id` int(11) NOT NULL,
   `type` varchar(30) NOT NULL,
   `reps` int(11) NOT NULL,
@@ -66,15 +68,15 @@ CREATE TABLE `weights_set` (
 -- Dumping data for table `weights_set`
 --
 
-INSERT INTO `weights_set` VALUES(0, 1, 'planned', 10, 25);
-INSERT INTO `weights_set` VALUES(1, 1, 'planned', 10, 25);
-INSERT INTO `weights_set` VALUES(2, 1, 'planned', 10, 25);
-INSERT INTO `weights_set` VALUES(3, 1, 'planned', 10, 25);
-INSERT INTO `weights_set` VALUES(4, 1, 'planned', 10, 25);
-INSERT INTO `weights_set` VALUES(5, 2, 'planned', 10, 28);
-INSERT INTO `weights_set` VALUES(6, 2, 'planned', 10, 28);
-INSERT INTO `weights_set` VALUES(7, 2, 'planned', 10, 30);
-INSERT INTO `weights_set` VALUES(8, 2, 'planned', 10, 30);
+INSERT INTO `weights_set` VALUES(0, 1, 1, 'planned', 12, 25);
+INSERT INTO `weights_set` VALUES(1, 2, 1, 'planned', 12, 25);
+INSERT INTO `weights_set` VALUES(2, 3, 1, 'planned', 10, 25);
+INSERT INTO `weights_set` VALUES(3, 4, 1, 'planned', 10, 25);
+INSERT INTO `weights_set` VALUES(4, 5, 1, 'planned', 10, 25);
+INSERT INTO `weights_set` VALUES(5, 1, 2, 'planned', 10, 28);
+INSERT INTO `weights_set` VALUES(6, 2, 2, 'planned', 10, 28);
+INSERT INTO `weights_set` VALUES(7, 3, 2, 'planned', 10, 30);
+INSERT INTO `weights_set` VALUES(8, 4, 2, 'planned', 10, 30);
 
 -- --------------------------------------------------------
 

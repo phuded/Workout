@@ -45,7 +45,7 @@
 				<h2>Training Programme</h2>
 				<?php
 				
-					$sql = 'select e.name as exercise, ws.reps as reps, ws.weight as weight, we.date as date, w.location as location from weights_set ws, workout_exercise we, workout w, exercise e'
+					$sql = 'select e.name as exercise, ws.reps as reps, ws.weight as weight, ws.order as setnum, we.date as date, w.location as location from weights_set ws, workout_exercise we, workout w, exercise e'
 							. ' where'
 							. ' ws.workout_exercise_id = we.id and'
 							. ' we.workout_id = w.id and'
@@ -56,6 +56,7 @@
 					$eDir = $defaultDir;
 					$rDir = $defaultDir;
 					$wDir = $defaultDir;
+					$sDir = $defaultDir;
 					$dDir = $defaultDir;
 					$lDir = $defaultDir;
 											
@@ -78,6 +79,9 @@
 							case 'weight':
 								$wDir = $direction;
 								break;
+							case 'setnum':
+								$sDir = $direction;
+								break;
 							case 'date':
 								$dDir = $direction;
 								break;
@@ -96,6 +100,7 @@
 							'<th><a href="?orderby=exercise&dir='.$eDir.'">Exercise</a></th>'.
 							'<th><a href="?orderby=reps&dir='.$rDir.'">Reps</a></th>'.
 							'<th><a href="?orderby=weight&dir='.$wDir.'">Weight</a></th>'.
+							'<th><a href="?orderby=setnum&dir='.$sDir.'">Set Number</a></th>'.
 							'<th><a href="?orderby=date&dir='.$dDir.'">Start Time</a></th>'.
 							'<th><a href="?orderby=location&dir='.$lDir.'">Location</a></th>'.
 						 '</tr>';
@@ -106,6 +111,7 @@
 								. '<td>' . $row['exercise'] . '</td>'
 								. '<td>' . $row['reps'] . '</td>'
 								. '<td>' . $row['weight'] . '</td>'
+								. '<td>' . $row['setnum'] . '</td>'
 								. '<td>' . $row['date'] . '</td>'
 								. '<td>' . $row['location'] . '</td>'
 								. '</tr>';
