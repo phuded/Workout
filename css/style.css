@@ -1,0 +1,175 @@
+html,body {
+	height: 100%; 
+}
+
+body {
+	background: none repeat scroll 0 0 #F0EFF0;
+	font: 80% Arial,Helvetica,Verdana,Sans-Serif;
+	margin: 0;
+	padding: 0;
+	color:black;
+}
+
+a{
+	color:white;
+}
+/* Layout */
+
+.container {
+	min-height: 100%; 
+    height: auto !important; /*Cause footer to stick to bottom*/
+    height: 100%; 
+    margin: 0 auto -150px; /*Allow for footer height*/
+}
+
+/* header */
+
+.header{
+	height: 100px;
+	background-color:black;
+	border-bottom: 2px solid #1669B0;
+}
+
+.innerHeader{
+	margin-left:auto;
+	margin-right:auto;
+    	width: 900px;
+	height:100%;
+}
+
+.logo{
+	float:left;
+	height: 65px;
+	width:400px;
+	position: relative;
+	top:15%;
+	font-size:4em;
+	color:white;
+}
+
+.menuPanel{
+	float: right;
+	height:50px;
+	position: relative;
+	top:25%;
+	right:2%
+}
+
+.menu{
+	font-size: 1.2em;
+	list-style: none outside none;
+}
+
+.menu-item{
+	float: left;
+    margin-right: 3px;
+}
+
+.menu-item a{
+	background: none repeat scroll 0 0 #808080;
+	border:1px outset grey;
+	text-transform: uppercase;
+	text-decoration: none;
+	color:white;
+	padding:14px 12px 14px 12px;
+}
+
+.menu-item a.selected{
+	background: none repeat scroll 0 0 #1669B0;
+}
+
+.menu-item a:hover{
+	background: none repeat scroll 0 0 #F0EFF0;
+	color: black;
+}
+
+
+/* Main content */
+.content {
+	 min-height:640px;
+     height:auto !important;
+     height:640px; 
+}
+
+.page-content{
+	width: 900px;
+	margin:0 auto 0 auto;
+}
+
+.left-content{
+	float:left;
+	width:48%:
+}
+
+.right-content{
+	float:right;
+	width:48%:
+}
+
+h1{
+   color: #333333;
+   font-size: 1.4em;
+   text-transform: uppercase;
+   text-shadow: 1px 2px white;
+}
+
+h2{
+	/*font-size: 1.2em;*/
+}
+
+
+/*Footer*/
+
+.footer,.footerGap{
+	height:150px;
+}
+.footer{
+	color:#B2B2B2;
+	background-color:#333333;
+	text-align:center;
+}
+
+.footer >p{
+	font-size:1.1em;
+}
+
+.footerTop{
+	border-top:2px solid white;
+	border-bottom:1px solid grey;
+	padding: 20px 0px 35px 0px;
+	background-color:black;
+}
+
+
+/*Other*/
+
+.clear {
+    clear: both;
+    display: block;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+}
+
+
+table.weights {
+	border: 1px solid gray;
+	padding:5px;
+}
+table.weights th {
+	border: 1px solid gray;
+	padding: 10px;
+	background-color: lightGrey;
+}
+table.weights td {
+	border: 1px solid gray;
+	padding: 6px;
+	background-color: white;
+}
+
+table.weights  a{
+	color:#1669B0;
+	text-decoration:none;
+	font-size:1.1em;
+}
