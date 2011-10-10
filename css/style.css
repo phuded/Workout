@@ -41,10 +41,6 @@ a{
 	float:left;
 	height: 65px;
 	width:400px;
-	position: relative;
-	top:15%;
-	font-size:4em;
-	color:white;
 }
 
 .menuPanel{
@@ -98,19 +94,23 @@ a{
 
 .left-content{
 	float:left;
-	width:48%:
+	width:49%;
 }
 
 .right-content{
 	float:right;
-	width:48%:
+	width:49%;
+}
+
+.half-height{
+	height:300px;
 }
 
 h1{
-   color: #333333;
-   font-size: 1.4em;
-   text-transform: uppercase;
-   text-shadow: 1px 2px white;
+   color: white;
+   font-size: 4em;
+   margin-top:20px;
+   font-weight: normal;
 }
 
 h2{
@@ -152,6 +152,11 @@ h2{
     width: 0;
 }
 
+.separator{
+	height:1px;
+	background-color:#1669B0;
+	box-shadow: 2px 2px 8px grey;
+}
 
 table.weights {
 	border: 1px solid gray;
@@ -168,8 +173,12 @@ table.weights td {
 	background-color: white;
 }
 
-table.weights  a{
+table.weights th  a{
 	color:#1669B0;
 	text-decoration:none;
 	font-size:1.1em;
+}
+
+table.weights td  a{
+	color:#1669B0;
 }

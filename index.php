@@ -9,7 +9,24 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Workout Planner</title>
 		<script>
-		
+			$(document).ready(function() {
+			  // Handler for .ready() called.
+			});
+			
+			$.showChildTable = function(id, tableId, orderby, dir){
+				$.ajax({
+					type: "GET",
+					url: "show"+tableId+".php",
+					data: "id="+id+(orderby?"&orderby="+orderby+"&dir="+dir:""),
+					success: function(msg){							
+						$('#'+tableId+' .tableHolder').html($.trim(msg));
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						// Error!
+					}
+				});
+			};
+			
 		</script>
 		<?php
 			//Connect To Database
@@ -23,18 +40,18 @@
 		<div class="header">
 			<div class="innerHeader">
 				<div class="logo">
-					<span>Workout Planner</span>
+					<h1>Workout Planner</h1>
 				</div>
 				<div class="menuPanel">
 					<ul id="menu" class="menu">
 						<li class="menu-item">
-							<a href="." class="selected">Upcoming Workouts</a>
+							<a href="." class="selected">upcoming</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">add workout</a>
 						</li>
 						<li class="menu-item">
 							<a href="exercises.php">exercises</a>
-						</li>
-						<li class="menu-item">
-							<a href="#">schedule</a>
 						</li>
 					</ul>
 				</div>
@@ -42,85 +59,86 @@
 		</div>
 		<div class="content">
 			<div class="page-content">
-				<h2>Training Programme</h2>
-				<?php
-				
-					$sql = 'select e.name as exercise, ws.reps as reps, ws.weight as weight, ws.order as setnum, we.date as date, w.location as location from weights_set ws, workout_exercise we, workout w, exercise e'
-							. ' where'
-							. ' ws.workout_exercise_id = we.id and'
-							. ' we.workout_id = w.id and'
-							. ' we.exercise_id = e.id';
-					
-					//Default
-					$defaultDir = 'asc';
-					$eDir = $defaultDir;
-					$rDir = $defaultDir;
-					$wDir = $defaultDir;
-					$sDir = $defaultDir;
-					$dDir = $defaultDir;
-					$lDir = $defaultDir;
-											
-					if(isset($_GET[orderby])){						
-						//Flip direction for link
-						if($_GET[dir] == 'asc'){
-							$direction = 'desc';
-						}
-						else{
-							$direction = 'asc';
-						}					
+				<div class="left-content half-height">
+					<h2>Workouts</h2>
+					<div class="tableHolder">
+						<?php
 						
-						switch ($_GET[orderby]) {
-							case 'exercise':
-								$eDir = $direction;
-								break;
-							case 'reps':
-								$rDir = $direction;
-								break;
-							case 'weight':
-								$wDir = $direction;
-								break;
-							case 'setnum':
-								$sDir = $direction;
-								break;
-							case 'date':
-								$dDir = $direction;
-								break;
-							case 'location':
-								$lDir = $direction;
-								break;
-						}
-												
-						$sql .= ' order by ' . $_GET[orderby] . ' ' . $_GET[dir];
-					};
-										
-					$result = mysql_query($sql);
+							$sql = 'select * from workout';
+							
+							//Default
+							$defaultDir = 'asc';
+							$dtDir = $defaultDir;
+							$lDir = $defaultDir;
+							$dDir = $defaultDir;
+													
+							if(isset($_GET[orderby])){						
+								//Flip direction for link
+								if($_GET[dir] == 'asc'){
+									$direction = 'desc';
+								}
+								else{
+									$direction = 'asc';
+								}					
+								
+								switch ($_GET[orderby]) {
+									case 'date':
+										$dtDir = $direction;
+										break;
+									case 'location':
+										$lDir = $direction;
+										break;
+									case 'duration':
+										$dDir = $direction;
+										break;
+								}
+														
+								$sql .= ' order by ' . $_GET[orderby] . ' ' . $_GET[dir];
+							};
+							
+							$sql .= ' limit 5';	
+							
+							$result = mysql_query($sql);
 
-					echo '<table class="weights">'.
-						 '<tr>'.
-							'<th><a href="?orderby=exercise&dir='.$eDir.'">Exercise</a></th>'.
-							'<th><a href="?orderby=reps&dir='.$rDir.'">Reps</a></th>'.
-							'<th><a href="?orderby=weight&dir='.$wDir.'">Weight</a></th>'.
-							'<th><a href="?orderby=setnum&dir='.$sDir.'">Set Number</a></th>'.
-							'<th><a href="?orderby=date&dir='.$dDir.'">Start Time</a></th>'.
-							'<th><a href="?orderby=location&dir='.$lDir.'">Location</a></th>'.
-						 '</tr>';
+							echo '<table class="weights">'
+								 . '<tr>'
+									. '<th><a href="?orderby=date&dir='.$dtDir.'">Date</a></th>'
+									. '<th><a href="?orderby=location&dir='.$lDir.'">Location</a></th>'
+									. '<th><a href="?orderby=duration&dir='.$dDir.'">Duration</a></th>'
+									. '<th></th>'
+								 . '</tr>';
 
-					if($result) {
-						while($row = mysql_fetch_array($result)){
-							echo '<tr>'
-								. '<td>' . $row['exercise'] . '</td>'
-								. '<td>' . $row['reps'] . '</td>'
-								. '<td>' . $row['weight'] . '</td>'
-								. '<td>' . $row['setnum'] . '</td>'
-								. '<td>' . $row['date'] . '</td>'
-								. '<td>' . $row['location'] . '</td>'
-								. '</tr>';
-						}
-					}
+							if($result) {
+								while($row = mysql_fetch_array($result)){
+									$date = new DateTime($row['date']);
+									echo '<tr>'
+										. '<td>' . $date->format('d-m-Y H:i:s') . '</td>'
+										. '<td>' . $row['location'] . '</td>'
+										. '<td>' . $row['duration'] . ' mins </td>'
+										. '<td><a href="javascript:$.showChildTable('.$row['id'].',&quot;WorkoutExercises&quot;)">View</a></td>'
+										. '</tr>';
+								}
+							}
 
-					echo '</table>';
-				?>
-			</div>	
+							echo '</table>';
+						?>
+					</div>
+				</div>
+				<div id="WorkoutExercises" class="right-content half-height">
+					<h2>Exercises</h2>
+					<div class="tableHolder">
+						<p>Please click 'View' to load.</p>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="separator"></div>
+				<div id="WeightsSet">
+					<h2>Sets</h2>	
+					<div class="tableHolder">
+						<p>Please click 'View Set' to load.</p>
+					</div>
+				</div>
+			</div>				
 		</div>
 		<div class="footerGap"></div>
 	</div>

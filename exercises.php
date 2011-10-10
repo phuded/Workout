@@ -14,6 +14,11 @@
 			//Connect To Database
 			include 'config.php';
 			date_default_timezone_set('GMT');
+			
+			if(isset($_POST[name])){
+				$sql = "insert into exercise (name,type) values('$_POST[name]','$_POST[type]')";
+				$result = mysql_query($sql);
+			}
 		?>
 		
 	</head>
@@ -81,8 +86,8 @@
 					if($result) {
 						while($row = mysql_fetch_array($result)){
 							echo '<tr>'
-								. '<td>' . $row['name'] . '</td>'
-								. '<td>' . $row['type'] . '</td>'
+								. '<td>'.$row['name'].'</td>'
+								. '<td>'.$row['type'].'</td>'
 								. '</tr>';
 						}
 					}
@@ -94,7 +99,7 @@
 				<div class="right-content">
 					<h2>Add new</h2>
 					<div class="form">
-						<form action="addExercise.php" method="post">
+						<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
 							Name: <input type="text" name="name" />
 							Type: <select type="text" name="type">
 										<option value="Biceps">Biceps</option>
