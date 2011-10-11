@@ -5,7 +5,6 @@
 								
 								//If by ID - tidy up
 								if(isset($_GET[id])){	
-									echo "here";
 									$weId = $_GET[id];
 									
 									$sql = 'select we.id as id, e.name as exercise, we.date as date from workout_exercise we, exercise e'
@@ -62,8 +61,7 @@
 									echo '</table>';
 								}
 								//Else by Exercise ID
-								else{
-																		
+								else{						
 									$weId = $_GET[exerciseId];
 									
 									$sql = 'select we.id as id, e.name as exercise, we.date as date from workout_exercise we, exercise e'
