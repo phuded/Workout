@@ -14,6 +14,7 @@
 			});
 			
 			$.showChildTable = function(id, tableId, orderby, dir){
+				$('#'+tableId+' .tableHolder').html('<img class="spinner" src="images/loading.gif"/>');
 				$.ajax({
 					type: "GET",
 					url: "show"+tableId+".php",

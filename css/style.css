@@ -158,6 +158,13 @@ h2{
 	box-shadow: 2px 2px 8px grey;
 }
 
+.spinner{
+	width:64px;
+	height:64px;
+	margin-left: 35%;
+	margin-top: 3%;
+}
+
 table.weights {
 	border: 1px solid gray;
 	padding:5px;

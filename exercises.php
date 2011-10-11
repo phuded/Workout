@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui-1.8.16.custom.css" />
@@ -8,7 +9,25 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Workout Planner</title>
 		<script>
-		
+			$(document).ready(function() {
+			  // Handler for .ready() called.
+			});
+			
+			$.showChildTable = function(id, tableId, orderby, dir){
+				$('#'+tableId+' .tableHolder').html('<img class="spinner" src="images/loading.gif"/>');
+				$.ajax({
+					type: "GET",
+					url: "show"+tableId+".php",
+					data: "exerciseId="+id+(orderby?"&orderby="+orderby+"&dir="+dir:""),
+					success: function(msg){							
+						$('#'+tableId+' .tableHolder').html($.trim(msg));
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						// Error!
+					}
+				});
+			};
+			
 		</script>
 		<?php
 			//Connect To Database
@@ -27,18 +46,18 @@
 		<div class="header">
 			<div class="innerHeader">
 				<div class="logo">
-					<span>Workout Planner</span>
+					<h1>Workout Planner</h1>
 				</div>
 				<div class="menuPanel">
 					<ul id="menu" class="menu">
 						<li class="menu-item">
-							<a href=".">Upcoming workouts</a>
+							<a href=".">upcoming</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">add workout</a>
 						</li>
 						<li class="menu-item">
 							<a href="exercises.php" class="selected">exercises</a>
-						</li>
-						<li class="menu-item">
-							<a href="#">schedule</a>
 						</li>
 					</ul>
 				</div>
@@ -47,57 +66,59 @@
 		<div class="content">
 			<div class="page-content">
 				<div class="left-content">
-				<h2>Exercises</h2>
-				<?php
-					$sql = 'select * from exercise';
-					
-					//Default
-					$defaultDir = 'asc';
-					$nDir = $defaultDir;
-					$tDir = $defaultDir;
-											
-					if(isset($_GET[orderby])){						
-						//Flip direction for link
-						if($_GET[dir] == 'asc'){
-							$direction = 'desc';
-						}
-						else{
-							$direction = 'asc';
-						}
+					<h2>All Exercises</h2>
+					<?php
+						$sql = 'select * from exercise';
 						
-						if($_GET[orderby] == 'name'){
-							$nDir = $direction;
+						//Default
+						$defaultDir = 'asc';
+						$nDir = $defaultDir;
+						$tDir = $defaultDir;
+												
+						if(isset($_GET[orderby])){						
+							//Flip direction for link
+							if($_GET[dir] == 'asc'){
+								$direction = 'desc';
+							}
+							else{
+								$direction = 'asc';
+							}
+							
+							if($_GET[orderby] == 'name'){
+								$nDir = $direction;
+							}
+							else{
+								$tDir = $direction;
+							}
+							
+							$sql .= ' order by ' . $_GET[orderby] . ' ' . $_GET[dir];
+						};								
+										
+						$result = mysql_query($sql);
+
+						echo '<table class="weights">'.
+							 '<tr>'.
+								'<th><a href="?orderby=name&dir='.$nDir.'">Name</a></th>'.
+								'<th><a href="?orderby=type&dir='.$tDir.'">Muscle Group</a></th>'.
+								'<th><a>Next</a></th>'.
+							 '</tr>';
+
+						if($result) {
+							while($row = mysql_fetch_array($result)){
+								echo '<tr>'
+									. '<td>'.$row['name'].'</td>'
+									. '<td>'.$row['type'].'</td>'
+									. '<td><a href="javascript:$.showChildTable('.$row['id'].',&quot;WorkoutExercises&quot;)">View</a></td>'
+									. '</tr>';
+							}
 						}
-						else{
-							$tDir = $direction;
-						}
-						
-						$sql .= ' order by ' . $_GET[orderby] . ' ' . $_GET[dir];
-					};								
-									
-					$result = mysql_query($sql);
 
-					echo '<table class="weights">'.
-						 '<tr>'.
-							'<th><a href="?orderby=name&dir='.$nDir.'">Name</a></th>'.
-							'<th><a href="?orderby=type&dir='.$tDir.'">Muscle Group</a></th>'.
-						 '</tr>';
+						echo '</table>';
 
-					if($result) {
-						while($row = mysql_fetch_array($result)){
-							echo '<tr>'
-								. '<td>'.$row['name'].'</td>'
-								. '<td>'.$row['type'].'</td>'
-								. '</tr>';
-						}
-					}
-
-					echo '</table>';
-
-				?>
+					?>
 				</div>
 				<div class="right-content">
-					<h2>Add new</h2>
+					<h2>Add Exercise</h2>
 					<div class="form">
 						<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
 							Name: <input type="text" name="name" />
@@ -111,8 +132,14 @@
 										<option value="Back">Back</option>
 										<option value="Legs">Legs</option>
 									</select>
-							<input type="submit"/>
+							<input type="submit" value="Add"/>
 						</form>
+					</div>
+					<br/>
+					<h2>Next Scheduled</h2>
+					<div id="WorkoutExercises">
+						<div class="tableHolder">
+						</div>
 					</div>
 				</div>
 			</div>	
