@@ -11,17 +11,9 @@ body {
 }
 
 a{
-	color:white;
+	color:#1669B0;
 }
 /* Layout */
-
-.container {
-	min-height: 100%; 
-    height: auto !important; /*Cause footer to stick to bottom*/
-    height: 100%; 
-    margin: 0 auto -150px; /*Allow for footer height*/
-}
-
 /* header */
 
 .header{
@@ -81,12 +73,6 @@ a{
 
 
 /* Main content */
-.content {
-	 min-height:640px;
-     height:auto !important;
-     height:640px; 
-}
-
 .page-content{
 	width: 900px;
 	margin:0 auto 0 auto;
@@ -156,6 +142,8 @@ h2{
 	height:1px;
 	background-color:#1669B0;
 	box-shadow: 2px 2px 8px grey;
+	margin-top:7px;
+	margin-bottom:7px;
 }
 
 .spinner{
