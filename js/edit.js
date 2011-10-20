@@ -1,9 +1,9 @@
 $.selectWorkout = function(id){
+	//Load form
+	$.loadWorkout(id);
 	//Load child tables
 	$.showEditTable("workoutExercise",id,"workout");
 	$.showEditTable("exercise",id,"workout");
-	//Load form
-	$.loadWorkout(id);
 	//Select it
 	$.setSelected("workout_"+id);
 }
