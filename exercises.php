@@ -6,7 +6,8 @@
 				
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-		<script src="js/main.js" type="text/javascript"></script>
+		<script src="js/show.js" type="text/javascript"></script>
+		<script src="js/common.js" type="text/javascript"></script>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Workout Planner</title>
 		<?php

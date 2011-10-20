@@ -18,32 +18,47 @@
 	}
 	
 	function editWorkouts ($id,$filterType) {
-		$sql = "select * from workout";
-		
-		$result = mysql_query($sql);
-
-		echo "<table class=\"weights\">"
-			 . "<tr>"
-				. "<th>Date</th>"
-				. "<th>Location</th>"
-				. "<th>Duration</th>"
-				. "<th></th>"
-			 . "</tr>";
-
-		if($result) {
-			while($row = mysql_fetch_array($result)){
-				$date = new DateTime($row["date"]);
-				$date = $date->format("d-m-Y H:i:s");
-				echo "<tr id=\"workout_$row[id]\">"
-					. "<td>$date</td>"
-					. "<td>$row[location]</td>"
-					. "<td>$row[duration] mins </td>"
-					. "<td><a href=\"javascript:$.showEditTable('workoutExercise',$row[id],'workout');javascript:$.showEditTable('exercise',$row[id],'workout');$.setSelected('workout_$row[id]')\">Select</a></td>"
-					. "</tr>";
+		if(isset($id)){
+	
+			$sql = "select * from workout where id = $id";
+			$result = mysql_query($sql);
+			
+			if($result) {
+				$row = mysql_fetch_assoc($result);
+				$date = strtotime($row[date]);
+				$output = array(id=>$row[id],location=>$row[location],date=>$date,duration=>$row[duration]);
 			}
-		}
 
-		echo '</table>';
+			echo json_encode($output);
+		}
+		else{
+			$sql = "select * from workout";
+			
+			$result = mysql_query($sql);
+
+			echo "<table class=\"weights\">"
+				 . "<tr>"
+					. "<th>Date</th>"
+					. "<th>Location</th>"
+					. "<th>Duration</th>"
+					. "<th></th>"
+				 . "</tr>";
+
+			if($result) {
+				while($row = mysql_fetch_array($result)){
+					$date = new DateTime($row["date"]);
+					$date = $date->format("d-m-Y H:i:s");
+					echo "<tr id=\"workout_$row[id]\">"
+						. "<td>$date</td>"
+						. "<td>$row[location]</td>"
+						. "<td>$row[duration] mins </td>"
+						. "<td><a href=\"javascript:$.selectWorkout($row[id])\">Select</a></td>"
+						. "</tr>";
+				}
+			}
+
+			echo '</table>';
+		}
 	}
 	
 	function editExercises ($id,$filterType) {

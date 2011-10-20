@@ -6,7 +6,8 @@
 				
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-		<script src="js/main.js" type="text/javascript"></script>
+		<script src="js/show.js" type="text/javascript"></script>
+		<script src="js/common.js" type="text/javascript"></script>
 		<script src="js/graph/jquery.jqplot.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" href="js/graph/jquery.jqplot.min.css" />
 		<script type="text/javascript" src="js/graph/plugins/jqplot.json2.min.js"></script>
@@ -42,7 +43,7 @@
 		<div class="content">
 				<div class="page-content">
 					<div id="workout" class="left-content half-height">
-						<h2>Workouts</h2>
+						<h2>Upcoming Workouts</h2>
 						<div class="inner-content">
 							<?php showWorkouts($_REQUEST[orderby],$_REQUEST[dir]); ?>
 						</div>

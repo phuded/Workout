@@ -18,31 +18,6 @@ $.showChildTable = function(object,id,filterType, orderby, dir){
 	});
 };
 
-$.showEditTable = function(object,id,filterType){
-
-	$('#'+object+' .inner-content').html('<img class="spinner" src="images/loading.gif"/>');
-	
-	obj = object.split("_")[0];
-	
-	$.ajax({
-		type: "GET",
-		url: "functions/edit.php",
-		data: "object="+obj+(id?"&id="+id+"&filterType="+filterType:""),
-		success: function(msg){	
-			$('#'+object+' .inner-content').html($.trim(msg));
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			// Error!
-		}
-	});
-};
-
-$.setSelected = function(id){
-	var parent = id.split("_")[0];
-	$('#'+parent + ' .inner-content table tr td').css('background-color','white');
-	$('#'+id+' td').css('background-color','#ECDDDD');
-};
-
 $.showGraph = function(show,id){
 	if(show){
 		$("#graph").html("");

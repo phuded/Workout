@@ -6,7 +6,8 @@
 				
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-		<script src="js/main.js" type="text/javascript"></script>
+		<script src="js/edit.js" type="text/javascript"></script>
+		<script src="js/common.js" type="text/javascript"></script>
 		<script src="js/graph/jquery.jqplot.min.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" href="js/graph/jquery.jqplot.min.css" />
 		<script type="text/javascript" src="js/graph/plugins/jqplot.json2.min.js"></script>
@@ -16,16 +17,18 @@
 		<?php
 			include "functions/show.php";
 		?>
-		<script>
+		<script type="text/javascript">
 			$(document).ready(function() {
 				$( "#datepicker" ).datepicker({
 					numberOfMonths: 2,
-					dateFormat: 'dd/mm/yy', 
+					dateFormat: 'dd-mm-yy', 
 					showButtonPanel: true,
 					showAnim: 'blind'
 				});
 				
 				$.showEditTable("workout");
+				//Reset workout form
+				document.workoutForm.reset();
 			});
 		</script>
 	</head>
@@ -54,12 +57,13 @@
 				<div class="page-content">
 					<div id="newWorkout" class="left-content">
 						<h2>1. Create new workout</h2>
-						<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+						<form name="workoutForm" action="javascript:$.updateWorkout();" method="get">
+								<input type="text" id="workoutId" name="workoutId" style="display:none;"></input>
 								<label for="location">Location:</label>
 								<select type="text" name="location" id="location">
-											<option value="v_epsom">Virgin Active - Epsom</option>
-											<option value="v_merton">Virgin Active - Merton Abbey</option>
-											<option value="v_stranf">Virgin Active - The Strand</option>
+									<option value="Virgin Active Epsom">Virgin Active Epsom</option>
+									<option value="Virgin Active Merton Abbey">Virgin Active Merton Abbey</option>
+									<option value="Virgin Active Strand">Virgin Active Strand</option>
 								</select>
 								<br/><br/>
 								<label for="datepicker">Date:</label>
@@ -70,7 +74,7 @@
 								<label for="duration">Duration:</label>
 								<input id="duration" type="text" MAXLENGTH=3 SIZE=2> mins.
 								<br/><br/>
-								<input type="submit" value="Create/Update"/>&nbsp;&nbsp;<input type="reset" value="Reset/Unselect workout"/>
+								<input type="submit" value="Create/Update"/>&nbsp;&nbsp;<input id="resetForm" type="reset" value="Reset/Unselect workout" onClick="javascript:$.unselectWorkout();"/>
 						</form>
 					</div>
 					<div id="workout" class="right-content">
@@ -81,21 +85,29 @@
 					<div class="separator"></div>
 					<div id="workoutExercise" class="left-content">
 						<h2>2. Selected Exercises</h2>
-						<div class="inner-content"></div>
+						<div class="inner-content">
+							<p>Please select a workout to load.</p>
+						</div>
 					</div>
 					<div id="exercise" class="right-content">
 						<h2>Available Exercises</h2>
-						<div class="inner-content"></div>
+						<div class="inner-content">
+							<p>Please select a workout to load.</p>
+						</div>
 					</div>
 					<div class="clear"></div>
 					<div class="separator"></div>
 					<div id="weightsSet_Planned" class="left-content">
 						<h2>3. Planned Sets</h2>
-						<div class="inner-content"></div>
+						<div class="inner-content">
+							<p>Please select an exercise to load.</p>
+						</div>
 					</div>
 					<div id="weightsSet_Actual" class="right-content">
 						<h2>Actual Sets</h2>
-						<div class="inner-content"></div>
+						<div class="inner-content">
+							<p>Please select an exercise to load.</p>
+						</div>
 					</div>
 					<div class="clear"></div>
 					<div class="separator"></div>
