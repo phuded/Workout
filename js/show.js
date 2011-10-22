@@ -3,19 +3,27 @@ $.showChildTable = function(object,id,filterType, orderby, dir){
 
 	$('#'+object+' .inner-content').html('<img class="spinner" src="images/loading.gif"/>');
 	
-	obj = object.split("_")[0];
+	var obj = object.split("_")[0];
+	
+	if(obj == "workoutExercise"){
+		$.resetSubPanels(); 
+	}
 	
 	$.ajax({
 		type: "GET",
 		url: "functions/show.php",
 		data: "object="+obj+"&id="+id+"&filterType="+filterType+(orderby?"&orderby="+orderby+"&dir="+dir:""),
 		success: function(msg){	
-			$('#'+object+' .inner-content').html($.trim(msg));
+			$("#"+object+" .inner-content").html($.trim(msg));
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			// Error!
 		}
 	});
+};
+
+$.resetSubPanels = function(){
+	$("#weightsSet_Planned .inner-content,#weightsSet_Actual .inner-content").html("<p>Please click 'View Set' to load.</p>");
 };
 
 $.showGraph = function(show,id){
@@ -38,7 +46,7 @@ $.showGraph = function(show,id){
 		};
 		 
 	  // The url for our json data
-	  var jsonurl = "graph.php?id="+id;
+	  var jsonurl = "functions/graph.php?id="+id;
 	 
 	  // passing in the url string as the jqPlot data argument is a handy
 	  // shortcut for our renderer.  You could also have used the
@@ -74,7 +82,7 @@ $.showGraph = function(show,id){
 		
 	}
 	else{
-		$("#WeightsSet_Graph").hide();
+		$("#weightsSet_Graph").hide();
 		$(".weights_set").show();
 	}
 };

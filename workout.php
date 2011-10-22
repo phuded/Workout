@@ -3,6 +3,7 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui-1.8.16.custom.css" />
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/workout.css" />
 				
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
@@ -55,7 +56,7 @@
 		</div>
 		<div class="content">
 				<div class="page-content">
-					<div id="newWorkout" class="left-content">
+					<div id="form_workout" class="left-content h250">
 						<h2>1. Create new workout</h2>
 						<form name="workoutForm" action="javascript:$.updateWorkout();" method="get">
 								<input type="text" id="workoutId" name="workoutId" style="display:none;"></input>
@@ -77,19 +78,19 @@
 								<input type="submit" value="Create/Update"/>&nbsp;&nbsp;<input id="resetForm" type="reset" value="Reset/Unselect workout" onClick="javascript:$.unselectWorkout();"/>
 						</form>
 					</div>
-					<div id="workout" class="right-content">
+					<div id="workout" class="right-content h250">
 						<h2>or choose existing...</h2>
 						<div class="inner-content"></div>
 					</div>
 					<div class="clear"></div>
 					<div class="separator"></div>
-					<div id="workoutExercise" class="left-content">
+					<div id="workoutExercise" class="left-content h300">
 						<h2>2. Selected Exercises</h2>
 						<div class="inner-content">
 							<p>Please select a workout to load.</p>
 						</div>
 					</div>
-					<div id="exercise" class="right-content">
+					<div id="exercise" class="right-content h300">
 						<h2>Available Exercises</h2>
 						<div class="inner-content">
 							<p>Please select a workout to load.</p>
@@ -97,13 +98,13 @@
 					</div>
 					<div class="clear"></div>
 					<div class="separator"></div>
-					<div id="weightsSet_Planned" class="left-content">
+					<div id="weightsSet_Planned" class="left-content h300">
 						<h2>3. Planned Sets</h2>
 						<div class="inner-content">
 							<p>Please select an exercise to load.</p>
 						</div>
 					</div>
-					<div id="weightsSet_Actual" class="right-content">
+					<div id="weightsSet_Actual" class="right-content h300">
 						<h2>Actual Sets</h2>
 						<div class="inner-content">
 							<p>Please select an exercise to load.</p>
@@ -113,39 +114,37 @@
 					<div class="separator"></div>
 					<div id="form_weightsSet_Planned" class="left-content">
 						<p><b>Add Planned Set</b></p>
-						<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-							<label for="order">Order:</label>
-							<input id="order" type="text" MAXLENGTH=2 SIZE=1>
+						<form name="weightsSetForm_Planned" action="javascript:$.addSet('Planned');" method="post">
+							<label for="position_Planned">Position:</label>
+							<select type="text" name="position_Planned" id="position_Planned" MAXLENGTH=2 SIZE=1></select>
 							<br/><br/>
-							<label for="numReps">Number of Reps:</label>
-							<input id="numReps" type="text" MAXLENGTH=2 SIZE=1>
+							<label for="numReps_Planned">Number of Reps:</label>
+							<input id="numReps_Planned" class="set_form" type="text" MAXLENGTH=2 SIZE=1>
 							&nbsp;&nbsp;
-							<label for="weight">Weight:</label>
-							<input id="weight" type="text" MAXLENGTH=3 SIZE=2> KG
+							<label for="weight_Planned">Weight:</label>
+							<input id="weight_Planned" class="set_form" type="text" MAXLENGTH=3 SIZE=2> KG
 							<br/><br/>
 							<input type="submit" value="Add"/>&nbsp;&nbsp;<input type="reset" value="Reset values"/>
 						</form>
 					</div>
-					<div id="form_weightsSet_Actual" class="left-content">
+					<div id="form_weightsSet_Actual" class="right-content">
 						<p><b>Add Actual Set</b></p>
-						<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-							<label for="order">Order:</label>
-							<input id="order" type="text" MAXLENGTH=2 SIZE=1>
+						<form name="weightsSetForm_Actual" action="javascript:$.addSet('Actual');" method="post">
+							<label for="position_Actual">Position:</label>
+							<select type="text" name="position_Actual" id="position_Actual" MAXLENGTH=2 SIZE=1></select>
 							<br/><br/>
-							<label for="numReps">Number of Reps:</label>
-							<input id="numReps" type="text" MAXLENGTH=2 SIZE=1>
+							<label for="numReps_Actual">Number of Reps:</label>
+							<input id="numReps_Actual" class="set_form" type="text" MAXLENGTH=2 SIZE=1>
 							&nbsp;&nbsp;
-							<label for="weight">Weight:</label>
-							<input id="weight" type="text" MAXLENGTH=3 SIZE=2> KG
+							<label for="weight_Actual">Weight:</label>
+							<input id="weight_Actual" class="set_form" type="text" MAXLENGTH=3 SIZE=2> KG
 							<br/><br/>
 							<input type="submit" value="Add"/>&nbsp;&nbsp;<input type="reset" value="Reset values"/>
 						</form>
 					</div>
 					<div class="clear"></div>
-					<div class="separator"></div>
-					<div id="save">
-						<input type="submit" value="Create/Update"/>
-					</div>
+					<br/>
+					<br/>
 				</div>				
 		</div>
 	</body>

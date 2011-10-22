@@ -1,3 +1,5 @@
+SetEnv TZ 'Europe/London'
+
 Options -Multiviews
 Options +FollowSymLinks
 

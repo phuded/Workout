@@ -48,34 +48,42 @@
 			}
 									
 			$sql .= " order by $orderBy $dir";
-		};
+		}
+		else{
+			$sql .= " order by date asc";
+		}
 		
 		$sql .= " limit 5";	
 		
 		$result = mysql_query($sql);
+		
+		if(mysql_num_rows($result) > 0){
+			$output = "<table class=\"weights\">"
+					 . "<tr>"
+						. "<th><a href=\"?orderby=date&dir=$dtDir\">Date</a></th>"
+						. "<th><a href=\"?orderby=location&dir=$lDir\">Location</a></th>"
+						. "<th><a href=\"?orderby=duration&dir=$dDir\">Duration</a></th>"
+						. "<th></th>"
+					 . "</tr>";
 
-		echo "<table class=\"weights\">"
-			 . "<tr>"
-				. "<th><a href=\"?orderby=date&dir=$dtDir\">Date</a></th>"
-				. "<th><a href=\"?orderby=location&dir=$lDir\">Location</a></th>"
-				. "<th><a href=\"?orderby=duration&dir=$dDir\">Duration</a></th>"
-				. "<th></th>"
-			 . "</tr>";
-
-		if($result) {
 			while($row = mysql_fetch_array($result)){
 				$date = new DateTime($row["date"]);
-				$date = $date->format("d-m-Y H:i:s");
-				echo "<tr id=\"workout_$row[id]\">"
-					. "<td>$date</td>"
-					. "<td>$row[location]</td>"
-					. "<td>$row[duration] mins </td>"
-					. "<td><a href=\"javascript:$.showChildTable('workoutExercise',$row[id],'workout');$.setSelected('workout_$row[id]')\">View</a></td>"
-					. "</tr>";
+				$date = $date->format("d-m-Y H:i");
+				$output .= "<tr id=\"workout_$row[id]\">"
+						. "<td>$date</td>"
+						. "<td>$row[location]</td>"
+						. "<td>$row[duration] mins </td>"
+						. "<td><a href=\"javascript:$.showChildTable('workoutExercise',$row[id],'workout');$.setSelected('workout_$row[id]')\">View</a></td>"
+						. "</tr>";
 			}
+			
+			$output .= '</table>';
 		}
-
-		echo '</table>';
+		else{
+			$output = "<h3>There are no workouts planned!</h3>";
+		}
+		
+		echo $output;
 	}
 	
 	function showExercises ($orderBy,$dir) {
@@ -103,33 +111,43 @@
 			}
 			
 			$sql .= " order by $orderBy $dir";
-		};								
+		}
+		else{
+			$sql .= " order by name asc";
+		}
 						
 		$result = mysql_query($sql);
+		
+		if(mysql_num_rows($result) > 0){
 
-		echo "<table class=\"weights\">".
-			 "<tr>".
-				"<th><a href=\"?orderby=name&dir=$nDir\">Name</a></th>".
-				"<th><a href=\"?orderby=type&dir=$tDir\">Muscle Group</a></th>".
-				"<th><a>Next</a></th>".
-			 "</tr>";
+			$output .=  "<table class=\"weights\">".
+						 "<tr>".
+							"<th><a href=\"?orderby=name&dir=$nDir\">Name</a></th>".
+							"<th><a href=\"?orderby=type&dir=$tDir\">Muscle Group</a></th>".
+							"<th><a>Next</a></th>".
+						 "</tr>";
 
-		if($result) {
+	
 			while($row = mysql_fetch_array($result)){
-				echo "<tr id=\"exercise_$row[id]\">"
-					. "<td>$row[name]</td>"
-					. "<td>$row[type]</td>"
-					. "<td><a href=\"javascript:$.showChildTable('workoutExercise',$row[id],'exercise');$.setSelected('Exercises_$row[id]')\">View</a></td>"
-					. "</tr>";
+				$output .=  "<tr id=\"exercise_$row[id]\">"
+							. "<td>$row[name]</td>"
+							. "<td>$row[type]</td>"
+							. "<td><a href=\"javascript:$.showChildTable('workoutExercise',$row[id],'exercise');$.setSelected('exercise_$row[id]')\">View</a></td>"
+							. "</tr>";
 			}
+			
+			$output .=  '</table>';
 		}
-
-		echo '</table>';
+		else{
+			$output = "<h3>There are no exercises!</h3>";
+		}
+		
+		echo $output;
 	}
 	
 	function showWorkoutExercises ($id,$filterType,$orderBy,$dir) {		
-		$sql = "select we.id as id, we.rank as rank, e.name as exercise, e.type as type from workout_exercise we, exercise e"
-				. " where we.exercise_id = e.id and";
+		$sql = "select we.id as id, we.rank as rank, e.name as exercise, e.type as type, w.date as date, w.location as location from workout_exercise we, exercise e, workout w"
+				. " where we.exercise_id = e.id and we.workout_id=w.id and";
 		
 		if($filterType == "workout"){
 			$sql .= " we.workout_id = $id";
@@ -142,6 +160,8 @@
 		//Default
 		$defaultDir = "asc";
 		$rDir = $defaultDir;
+		$dDir = $defaultDir;
+		$lDir = $defaultDir;
 		$eDir = $defaultDir;
 		$tDir = $defaultDir;
 								
@@ -158,6 +178,12 @@
 				case "rank":
 					$rDir = $direction;
 					break;
+				case "date":
+					$dDir = $direction;
+					break;
+				case "location":
+					$lDir = $direction;
+					break;
 				case "exercise":
 					$eDir = $direction;
 					break;
@@ -168,36 +194,68 @@
 									
 			$sql .= " order by $orderBy $dir";
 		}
+		else{
+			$sql .= " order by rank asc";
+		}
 							
 		$result = mysql_query($sql);
-
-		$output = "<table class=\"weights\">".
-				"<tr>".
-					"<th><a href=\"javascript:$.showChildTable('workoutExercise',$id,'$filterType','rank','$rDir')\">#</a></th>".
-					"<th><a href=\"javascript:$.showChildTable('workoutExercise',$id,'$filterType','exercise','$eDir')\">Exercise</a></th>".
-					"<th><a href=\"javascript:$.showChildTable('workoutExercise',$id,'$filterType','type','$tDir')\">Muscle Group</a></th>";
 		
-		if($filterType == "workout"){
-			$output .= "<th></th>";
-		}
-		
-		$output .= "</tr>";
+		if(mysql_num_rows($result) > 0){
 
-		if($result) {
+			$output = "<table class=\"weights\">".
+					"<tr>";
+					
+			if($filterType == "workout"){
+				$output .= "<th><a href=\"javascript:$.showChildTable('workoutExercise',$id,'$filterType','rank','$rDir')\">#</a></th>";
+			}
+			else if($filterType == "exercise"){
+				$output .= "<th><a href=\"javascript:$.showChildTable('workoutExercise',$id,'$filterType','date','$dDir')\">Date</a></th>"
+						. "<th><a href=\"javascript:$.showChildTable('workoutExercise',$id,'$filterType','type','$lDir')\">Location</a></th>";
+			}
+			
+			$output .= "<th><a href=\"javascript:$.showChildTable('workoutExercise',$id,'$filterType','exercise','$eDir')\">Exercise</a></th>";
+			
+			if($filterType == "workout"){
+				$output .= "<th><a href=\"javascript:$.showChildTable('workoutExercise',$id,'$filterType','type','$tDir')\">Muscle Group</a></th>"
+						. "<th></th>";
+			}
+			
+			$output .= "</tr>";
+		
 			while($row = mysql_fetch_array($result)){
-				$output .= "<tr id=\"workoutExercise_$row[id]\">"
-							. "<td>$row[rank]</td>"
-							. "<td>$row[exercise]</td>"
-							. "<td>$row[type]</td>";
+				$output .= "<tr id=\"workoutExercise_$row[id]\">";
+				
+				if($filterType == "workout"){
+					$output .= "<td>$row[rank]</td>";
+				}
+				else if($filterType == "exercise"){
+					$date = new DateTime($row["date"]);
+					$date = $date->format("d-m-Y H:i");
+					
+					$output .= "<td>$date</td>"
+							. "<td>$row[location]</td>";
+				}
+				
+				$output .= "<td>$row[exercise]</td>";						
 
 				if($filterType == "workout"){
-					$output .= "<td><a href=\"javascript:$.showChildTable('weightsSet_Planned',$row[id],'Planned');$.showChildTable('weightsSet_Actual',$row[id],'Actual');$.setSelected('workoutExercise_$row[id]')\">View</a></td>";
+					$output .= "<td>$row[type]</td>"
+							. "<td><a href=\"javascript:$.showChildTable('weightsSet_Planned',$row[id],'Planned');$.showChildTable('weightsSet_Actual',$row[id],'Actual');$.setSelected('workoutExercise_$row[id]')\">View</a></td>";
 				}
 				$output .= "</tr>";
 			}
+			
+			$output .= "</table>";
+		
 		}
-
-		$output .= "</table>";
+		else{
+			if($filterType == "workout"){
+				$output = "<h3>There are no exercises planned for this workout!</h3>";
+			}
+			else if($filterType == "exercise"){
+				$output = "<h3>This exercise is not scheduled in any workout!</h3>";
+			}
+		}
 		
 		echo $output;
 	}
@@ -235,17 +293,21 @@
 									
 			$sql .= " order by $orderBy $dir";
 		}
+		else{
+			$sql .= " order by rank asc";
+		}
 
 		$result = mysql_query($sql);
+		
+		if(mysql_num_rows($result) > 0){
 
-		$output = "<table class=\"weights\">"
+			$output = "<table class=\"weights\">"
 					 ."<tr>"
 						."<th><a href=\"javascript:$.showChildTable('weightsSet_$filterType',$id,'$filterType','rank','$rDir')\">#</a></th>"
 						."<th><a href=\"javascript:$.showChildTable('weightsSet_$filterType',$id,'$filterType','reps','$rDir')\">Repetitions</a></th>"
 						."<th><a href=\"javascript:$.showChildTable('weightsSet_$filterType',$id,'$filterType','weight','$wDir')\">Weight</a></th>"
 					 ."</tr>";
 
-		if($result) {
 			while($row = mysql_fetch_array($result)){
 				$output .= "<tr>"
 						. "<td>$row[rank]</td>"
@@ -253,12 +315,16 @@
 						. "<td>$row[weight] KG</td>"
 						. "</tr>";
 			}
-		}
-
-		$output .= "</table>";
+			
+			$output .= "</table>";
 		
-		if($type=="Planned"){
-			$output .= "<br/><a href=\"javascript:$.showGraph(true,$id)\">Show Graph</a>";
+		
+			if($filterType=="Planned"){
+				$output .= "<br/><a href=\"javascript:$.showGraph(true,$id)\">Show Graph</a>";
+			}
+		}
+		else{
+			$output = "<h3>There are no $filterType sets for this workout!</h3>";
 		}
 
 		echo $output;

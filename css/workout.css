@@ -1,0 +1,15 @@
+#workout .inner-content{
+	height:175px;
+	overflow:auto;
+}
+
+#exercise .inner-content,#workoutExercise .inner-content{
+	height:240px;
+	overflow:auto;
+}
+
+#weightsSet_Planned .inner-content,#weightsSet_Actual .inner-content{
+	height:240px;
+	overflow:auto;
+}
+

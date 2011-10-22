@@ -88,9 +88,6 @@ a{
 	width:49%;
 }
 
-.half-height{
-	height:300px;
-}
 
 h1{
    color: white;
@@ -152,6 +149,32 @@ h2{
 	margin-left: 35%;
 	margin-top: 3%;
 }
+
+/*Heights*/
+
+.h200{
+	height:200px;
+}
+.h250{
+	height:250px;
+}
+.h300{
+	height:300px;
+}
+.h400{
+	height:400px;
+}
+.h500{
+	height:500px;
+}
+.h600{
+	height:600px;
+}
+.h700{
+	height:700px;
+}
+
+/* Table styling */
 
 table.weights {
 	border: 1px solid gray;

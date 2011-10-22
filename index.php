@@ -3,6 +3,7 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui-1.8.16.custom.css" />
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/upcoming.css" />
 				
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
@@ -42,13 +43,13 @@
 		</div>
 		<div class="content">
 				<div class="page-content">
-					<div id="workout" class="left-content half-height">
+					<div id="workout" class="left-content h300">
 						<h2>Upcoming Workouts</h2>
 						<div class="inner-content">
 							<?php showWorkouts($_REQUEST[orderby],$_REQUEST[dir]); ?>
 						</div>
 					</div>
-					<div id="workoutExercise" class="right-content half-height">
+					<div id="workoutExercise" class="right-content h300">
 						<h2>Exercises</h2>
 						<div class="inner-content">
 							<p>Please click 'View' to load.</p>
