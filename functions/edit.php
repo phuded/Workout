@@ -105,8 +105,9 @@
 				. " where we.exercise_id = e.id and we.workout_id = $id order by rank asc";
 				
 		$result = mysql_query($sql);
+		$numRows = mysql_num_rows($result);
 		
-		if(mysql_num_rows($result) > 0){
+		if($numRows > 0){
 		
 			$output = "<table class=\"weights\">".
 					"<tr>".
@@ -114,15 +115,34 @@
 						"<th>Exercise</th>".
 						"<th></th>".
 						"<th></th>".
+						//"<th></th>".
+						"<th></th>".
 					"</tr>";
-
+			
+			$cnt = 1;
 			while($row = mysql_fetch_array($result)){
 				$output .= "<tr id=\"workoutExercise_$row[id]\">"
 							. "<td>$row[rank]</td>"
 							. "<td>$row[exercise]</td>"
-							. "<td><a href=\"javascript:$.delExercise($row[id],$row[rank])\">Delete</a></td>"
-							."<td><a href=\"javascript:$.selectWorkoutExercise($row[id])\">View Set</a></td>"
-							."</tr>";
+							. "<td><a href=\"javascript:$.delExercise($row[id],$row[rank])\">Delete</a></td>";
+							
+				if($cnt>1){
+					$output .= "<td style=\"text-align:center;\"><a href=\"javascript:$.moveExercise($row[id],$row[rank],-1)\"><img src=\"images/arrow_up.png\"/></a>";
+				}
+				else{
+					$output .= "<td>&nbsp;&nbsp;&nbsp;";
+				}
+				
+				if($cnt<$numRows){
+					$output .= "&nbsp;&nbsp;<a href=\"javascript:$.moveExercise($row[id],$row[rank],1)\"><img src=\"images/arrow_down.png\"/></a></td>";
+				}
+				else{
+					$output .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+				}
+				
+				$output .= "<td><a href=\"javascript:$.selectWorkoutExercise($row[id])\">View Set</a></td>"
+				."</tr>";
+				$cnt++;			
 			}
 
 			$output .= "</table>";

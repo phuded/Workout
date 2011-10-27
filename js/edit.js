@@ -180,6 +180,27 @@ $.delExercise = function(id,rank){
 
 };
 
+$.moveExercise = function(id,rank,change){
+	
+	var total = $("#workoutExercise .inner-content table tr").size()-1;
+	var workoutId = $("#workoutId").val();
+	
+	$.ajax({
+		type: "GET",
+		dataType:"json",
+		url: "functions/update.php",
+		data: "action=moveexercise&workoutExerciseId="+id+"&workoutId="+workoutId+"&rank="+rank+"&change="+change,
+		success: function(json){
+			$.showEditTable("workoutExercise",workoutId,"workout");
+			$.resetSubPanels(true);
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			// Error!
+		}
+	});
+
+};
+
 
 /* Sets*/
 
@@ -194,6 +215,36 @@ $.selectWorkoutExercise = function(id){
 	$.showEditTable("weightsSet_Planned",id,"Planned");
 	$.showEditTable("weightsSet_Actual",id,"Actual");
 	
+};
+
+$.addSet = function(type){
+	var total = $("#weightsSet_"+type+" table tr").size();
+	total = total?(total-1):0;
+	var workoutExerciseId = $("#workoutExercise").data("selected");
+	
+	var data = {
+		action:"addset",
+		type:type,
+		rank:$("#position_"+type).val(),
+		reps:$("#numReps_"+type).val(),
+		weight:$("#weight_"+type).val(),
+		workoutExerciseId:workoutExerciseId,
+		total:total
+	};
+
+	$.ajax({
+		type: "GET",
+		dataType:"json",
+		url: "functions/update.php",
+		data: data,
+		success: function(json){
+			$.showEditTable("weightsSet_"+type,workoutExerciseId,type);
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			// Error!
+		}
+	});
+
 };
 
 $.delSet = function(setId,rank,type){
@@ -231,35 +282,6 @@ $.populateWSPos = function(filterType){
 	$("#position_"+filterType).html(options);
 };
 
-$.addSet = function(type){
-	var total = $("#weightsSet_"+type+" table tr").size();
-	total = total?(total-1):0;
-	var workoutExerciseId = $("#workoutExercise").data("selected");
-	
-	var data = {
-		action:"addset",
-		type:type,
-		rank:$("#position_"+type).val(),
-		reps:$("#numReps_"+type).val(),
-		weight:$("#weight_"+type).val(),
-		workoutExerciseId:workoutExerciseId,
-		total:total
-	};
-
-	$.ajax({
-		type: "GET",
-		dataType:"json",
-		url: "functions/update.php",
-		data: data,
-		success: function(json){
-			$.showEditTable("weightsSet_"+type,workoutExerciseId,type);
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			// Error!
-		}
-	});
-
-};
 
 /* Common */
 $.resetSubPanels = function(setsOnly){

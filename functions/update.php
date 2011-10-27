@@ -15,6 +15,9 @@
 		case "delexercise":
 			delExercise ($_REQUEST[workoutExerciseId],$_REQUEST[workoutId],$_REQUEST[rank],$_REQUEST[total]); 
 			break;
+		case "moveexercise":
+			moveExercise ($_REQUEST[workoutExerciseId],$_REQUEST[workoutId],$_REQUEST[rank],$_REQUEST[change]); 
+			break;
 		case "addset":
 			addSet($_REQUEST[reps],$_REQUEST[weight],$_REQUEST[type],$_REQUEST[workoutExerciseId],$_REQUEST[rank],$_REQUEST[total]); 
 			break;
@@ -104,6 +107,21 @@
 				mysql_query($sqlUpdate);	
 			}	
 		}
+		$res = array ("success"=>$result);
+		
+		echo json_encode($res);
+	}
+	
+	function moveExercise ($workoutExerciseId,$workoutId,$rank,$change){
+			
+		$nxRank = $rank+$change;
+	
+		$sqlUpdate = "update workout_exercise set rank = $rank where workout_id = $workoutId and rank = $nxRank";
+		mysql_query($sqlUpdate);
+		
+		$sqlUpdate = "update workout_exercise set rank = $nxRank where id = $workoutExerciseId";
+		$result = mysql_query($sqlUpdate);	
+
 		$res = array ("success"=>$result);
 		
 		echo json_encode($res);
