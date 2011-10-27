@@ -6,6 +6,9 @@
 		case "updateworkout":
 			updateWorkout ($_REQUEST[id],$_REQUEST[location],$_REQUEST[dateTime],$_REQUEST[duration]); 
 			break;
+		case "delworkout":
+			delWorkout ($_REQUEST[id]); 
+			break;
 		case "addexercise":
 			addExercise ($_REQUEST[exerciseId],$_REQUEST[workoutId],$_REQUEST[rank]); 
 			break;
@@ -41,6 +44,34 @@
 		}
 		
 		echo json_encode($res);	
+	}
+	
+	function delWorkout ($id) {
+		
+		$sql = "select id from workout_exercise where workout_id = $id";	
+		$result = mysql_query($sql);
+		
+		if($result){
+		
+			while($row = mysql_fetch_array($result)){
+				$weId = $row[id];
+				
+				$sql = "delete from weights_set where " .
+				   "workout_exercise_id = $weId";
+				mysql_query($sql);
+
+				$sql = "delete from workout_exercise where id = $weId";
+				mysql_query($sql);		
+			}
+			
+			$sql = "delete from workout where id = $id";	
+			$result = mysql_query($sql);
+		
+		}
+
+		$res = array ("success"=>$result);
+		
+		echo json_encode($res);
 	}
 	
 	function addExercise ($exerciseId,$workoutId,$rank) {

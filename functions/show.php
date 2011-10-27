@@ -18,7 +18,7 @@
 	}
 	
 	function showWorkouts ($orderBy,$dir) {
-		$sql = "select * from workout";
+		$sql = "select * from workout where date > current_date";
 		
 		//Default
 		$defaultDir = "asc";

@@ -30,6 +30,8 @@
 				$.showEditTable("workout");
 				//Reset workout form
 				document.workoutForm.reset();
+				
+				//$(".formButton").button();
 			});
 		</script>
 	</head>
@@ -75,7 +77,9 @@
 								<label for="duration">Duration:</label>
 								<input id="duration" type="text" MAXLENGTH=3 SIZE=2> mins.
 								<br/><br/>
-								<input type="submit" value="Create/Update"/>&nbsp;&nbsp;<input id="resetForm" type="reset" value="Reset/Unselect workout" onClick="javascript:$.unselectWorkout();"/>
+								<input class="formButton" type="submit" value="Create/Update" style="height:35px;font-weight:bold;"/>&nbsp;&nbsp;<input id="delWorkout" class="formButton" type="button" value="Delete workout" onClick="javascript:$.delWorkout();"/>
+								<br/><br/>
+								<input id="resetForm" class="formButton" type="reset" value="Reset/Unselect workout" onClick="javascript:$.unselectWorkout();"/>
 						</form>
 					</div>
 					<div id="workout" class="right-content h250">
