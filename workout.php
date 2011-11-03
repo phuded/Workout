@@ -60,7 +60,7 @@
 				<div class="page-content">
 					<div id="form_workout" class="left-content h250">
 						<h2>1. Create new workout</h2>
-						<form name="workoutForm" action="javascript:$.updateWorkout();" method="get">
+						<form id="workoutForm" name="workoutForm" action="javascript:$.updateWorkout();" method="get">
 								<input type="text" id="workoutId" name="workoutId" style="display:none;"></input>
 								<label for="location">Location:</label>
 								<select type="text" name="location" id="location">
