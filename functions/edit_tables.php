@@ -52,7 +52,7 @@
 							. "<td>$date</td>"
 							. "<td>$row[location]</td>"
 							. "<td>$row[duration] mins </td>"
-							. "<td><a href=\"javascript:$.selectWorkout($row[id])\">Select</a></td>"
+							. "<td><a href=\"javascript:$.selectWorkout($row[id])\"><img src=\"images/arrow_right_fat.png\" title=\"Select Workout\"/></a></td>"
 							. "</tr>";
 				}
 
@@ -87,7 +87,7 @@
 				$output .= "<tr id=\"exercise_$row[id]\">"
 							. "<td>$row[name]</td>"
 							. "<td>$row[type]</td>"
-							. "<td><a href=\"javascript:$.addExercise($row[id])\">Add to workout</a></td>"
+							. "<td><a href=\"javascript:$.addExercise($row[id])\"><img src=\"images/add.png\" title=\"Add to workout\"/></a></td>"
 							. "</tr>";
 			}
 		
@@ -115,7 +115,6 @@
 						"<th>Exercise</th>".
 						"<th></th>".
 						"<th></th>".
-						//"<th></th>".
 						"<th></th>".
 					"</tr>";
 			
@@ -124,23 +123,25 @@
 				$output .= "<tr id=\"workoutExercise_$row[id]\">"
 							. "<td>$row[rank]</td>"
 							. "<td>$row[exercise]</td>"
-							. "<td><a href=\"javascript:$.delExercise($row[id],$row[rank])\">Delete</a></td>";
+							. "<td><a href=\"javascript:$.delExercise($row[id],$row[rank])\"><img src=\"images/delete.png\" title=\"Delete Exercise\"/></a></td>";
 							
 				if($cnt>1){
-					$output .= "<td style=\"text-align:center;\"><a href=\"javascript:$.moveExercise($row[id],$row[rank],-1)\"><img src=\"images/arrow_up.png\"/></a>";
+					$output .= "<td><a href=\"javascript:$.moveExercise($row[id],$row[rank],-1)\"><img src=\"images/arrow_up.png\" title=\"Move up\"/></a>";
+					$margin = "7px";
 				}
 				else{
-					$output .= "<td>&nbsp;&nbsp;&nbsp;";
+					$output .= "<td>";
+					$margin = "18px";
 				}
 				
 				if($cnt<$numRows){
-					$output .= "&nbsp;&nbsp;<a href=\"javascript:$.moveExercise($row[id],$row[rank],1)\"><img src=\"images/arrow_down.png\"/></a></td>";
+					$output .= "<a style=\"margin-left:$margin\" href=\"javascript:$.moveExercise($row[id],$row[rank],1)\"><img src=\"images/arrow_down.png\" title=\"Move down\"/></a></td>";
 				}
 				else{
-					$output .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+					$output .= "</td>";
 				}
 				
-				$output .= "<td><a href=\"javascript:$.selectWorkoutExercise($row[id])\">View Set</a></td>"
+				$output .= "<td><a href=\"javascript:$.selectWorkoutExercise($row[id])\"><img src=\"images/arrow_right_fat_blue.png\" title=\"View Sets\"/></a></td>"
 				."</tr>";
 				$cnt++;			
 			}
@@ -174,7 +175,7 @@
 						. "<td>$row[rank]</td>"
 						. "<td>$row[reps]</td>"
 						. "<td>$row[weight] KG</td>"
-						. "<td><a href=\"javascript:$.delSet($row[id],$row[rank],'$filterType')\">Delete</a></td>"
+						. "<td><a href=\"javascript:$.delSet($row[id],$row[rank],'$filterType')\"><img src=\"images/delete.png\" title=\"Delete Set\"/></a></td>"
 						. "</tr>";
 			}
 			

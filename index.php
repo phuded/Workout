@@ -16,7 +16,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Workout Planner</title>
 		<?php
-			include "functions/show.php";
+			include "functions/show_tables.php";
 		?>
 		
 	</head>
@@ -26,13 +26,14 @@
 					<div class="logo">
 						<h1>Workout Planner</h1>
 					</div>
+					<img src="images/icon_dumbbells.png"/>
 					<div class="menuPanel">
 						<ul id="menu" class="menu">
 							<li class="menu-item">
 								<a href="." class="selected">upcoming</a>
 							</li>
 							<li class="menu-item">
-								<a href="workout.php">add workout</a>
+								<a href="workout.php">plan workouts</a>
 							</li>
 							<li class="menu-item">
 								<a href="exercises.php">exercises</a>

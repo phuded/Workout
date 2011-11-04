@@ -13,7 +13,7 @@
 		<title>Workout Planner</title>
 		<?php
 			//Connect To Database
-			include "functions/show.php";
+			include "functions/show_tables.php";
 			
 			if(isset($_POST[name])){
 				$sql = "insert into exercise (name,type) values('$_POST[name]','$_POST[type]')";
@@ -28,13 +28,14 @@
 				<div class="logo">
 					<h1>Workout Planner</h1>
 				</div>
+				<img src="images/icon_dumbbells.png"/>
 				<div class="menuPanel">
 					<ul id="menu" class="menu">
 						<li class="menu-item">
 							<a href=".">upcoming</a>
 						</li>
 						<li class="menu-item">
-							<a href="workout.php">add workout</a>
+							<a href="workout.php">plan workouts</a>
 						</li>
 						<li class="menu-item">
 							<a href="exercises.php" class="selected">exercises</a>

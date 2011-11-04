@@ -11,7 +11,7 @@ $.showChildTable = function(object,id,filterType, orderby, dir){
 	
 	$.ajax({
 		type: "GET",
-		url: "functions/show.php",
+		url: "functions/show_tables.php",
 		data: "object="+obj+"&id="+id+"&filterType="+filterType+(orderby?"&orderby="+orderby+"&dir="+dir:""),
 		success: function(msg){	
 			$("#"+object+" .inner-content").html($.trim(msg));

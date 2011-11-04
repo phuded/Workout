@@ -73,7 +73,7 @@
 						. "<td>$date</td>"
 						. "<td>$row[location]</td>"
 						. "<td>$row[duration] mins </td>"
-						. "<td><a href=\"javascript:$.showChildTable('workoutExercise',$row[id],'workout');$.setSelected('workout_$row[id]')\">View</a></td>"
+						. "<td><a href=\"javascript:$.showChildTable('workoutExercise',$row[id],'workout');$.setSelected('workout_$row[id]')\"><img src=\"images/arrow_right_fat.png\" title=\"Select Workout\"/></a></td>"
 						. "</tr>";
 			}
 			
@@ -132,7 +132,7 @@
 				$output .=  "<tr id=\"exercise_$row[id]\">"
 							. "<td>$row[name]</td>"
 							. "<td>$row[type]</td>"
-							. "<td><a href=\"javascript:$.showChildTable('workoutExercise',$row[id],'exercise');$.setSelected('exercise_$row[id]')\">View</a></td>"
+							. "<td class=\"centre\"><a href=\"javascript:$.showChildTable('workoutExercise',$row[id],'exercise');$.setSelected('exercise_$row[id]')\"><img src=\"images/arrow_right_fat.png\" title=\"Select Exercise\"/></a></td>"
 							. "</tr>";
 			}
 			
@@ -240,7 +240,7 @@
 
 				if($filterType == "workout"){
 					$output .= "<td>$row[type]</td>"
-							. "<td><a href=\"javascript:$.showChildTable('weightsSet_Planned',$row[id],'Planned');$.showChildTable('weightsSet_Actual',$row[id],'Actual');$.setSelected('workoutExercise_$row[id]')\">View</a></td>";
+							. "<td><a href=\"javascript:$.showChildTable('weightsSet_Planned',$row[id],'Planned');$.showChildTable('weightsSet_Actual',$row[id],'Actual');$.setSelected('workoutExercise_$row[id]')\"><img src=\"images/arrow_right.png\" title=\"Select Exercise\"/></a></td>";
 				}
 				$output .= "</tr>";
 			}

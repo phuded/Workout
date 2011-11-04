@@ -15,9 +15,6 @@
 		
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Workout Planner</title>
-		<?php
-			include "functions/show.php";
-		?>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$( "#datepicker" ).datepicker({
@@ -41,13 +38,14 @@
 					<div class="logo">
 						<h1>Workout Planner</h1>
 					</div>
+					<img src="images/icon_dumbbells.png"/>
 					<div class="menuPanel">
 						<ul id="menu" class="menu">
 							<li class="menu-item">
 								<a href=".">upcoming</a>
 							</li>
 							<li class="menu-item">
-								<a href="workout.php" class="selected">add workout</a>
+								<a href="workout.php" class="selected">plan workouts</a>
 							</li>
 							<li class="menu-item">
 								<a href="exercises.php">exercises</a>
@@ -77,9 +75,9 @@
 								<label for="duration">Duration:</label>
 								<input id="duration" type="text" MAXLENGTH=3 SIZE=2> mins.
 								<br/><br/>
-								<input class="formButton" type="submit" value="Create/Update" style="height:35px;font-weight:bold;"/>&nbsp;&nbsp;<input id="delWorkout" class="formButton" type="button" value="Delete workout" onClick="javascript:$.delWorkout();"/>
+								<input class="formButton" type="submit" value="Create/Update" style="height:35px;font-weight:bold;"/>&nbsp;&nbsp;<input id="delWorkout" class="formButton" type="button" style="height:35px;" value="Delete workout" onClick="javascript:$.delWorkout();"/>
 								<br/><br/>
-								<input id="resetForm" class="formButton" type="reset" value="Reset/Unselect workout" onClick="javascript:$.unselectWorkout();"/>
+								<input id="resetForm" class="formButton" style="height:25px;" type="reset" value="Reset/Unselect workout" onClick="javascript:$.unselectWorkout();"/>
 						</form>
 					</div>
 					<div id="workout" class="right-content h250">

@@ -6,7 +6,7 @@ $.showEditTable = function(object,id,filterType,selectAfter){
 	
 	$.ajax({
 		type: "GET",
-		url: "functions/edit.php",
+		url: "functions/edit_tables.php",
 		data: "object="+obj+(id?"&id="+id+"&filterType="+filterType:""),
 		success: function(msg){
 			//Add content
@@ -47,7 +47,7 @@ $.loadWorkout = function(id){
 	$.ajax({
 		type: "GET",
 		dataType:"json",
-		url: "functions/edit.php",
+		url: "functions/edit_tables.php",
 		data: "object=workout&id="+id,
 		success: function(json){
 			$("#workoutId").val(json.id);
@@ -218,32 +218,35 @@ $.selectWorkoutExercise = function(id){
 };
 
 $.addSet = function(type){
-	var total = $("#weightsSet_"+type+" table tr").size();
-	total = total?(total-1):0;
 	var workoutExerciseId = $("#workoutExercise").data("selected");
 	
-	var data = {
-		action:"addset",
-		type:type,
-		rank:$("#position_"+type).val(),
-		reps:$("#numReps_"+type).val(),
-		weight:$("#weight_"+type).val(),
-		workoutExerciseId:workoutExerciseId,
-		total:total
-	};
+	if(workoutExerciseId){
+		var total = $("#weightsSet_"+type+" table tr").size();
+		total = total?(total-1):0;
+		
+		var data = {
+			action:"addset",
+			type:type,
+			rank:$("#position_"+type).val(),
+			reps:$("#numReps_"+type).val(),
+			weight:$("#weight_"+type).val(),
+			workoutExerciseId:workoutExerciseId,
+			total:total
+		};
 
-	$.ajax({
-		type: "GET",
-		dataType:"json",
-		url: "functions/update.php",
-		data: data,
-		success: function(json){
-			$.showEditTable("weightsSet_"+type,workoutExerciseId,type);
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			// Error!
-		}
-	});
+		$.ajax({
+			type: "GET",
+			dataType:"json",
+			url: "functions/update.php",
+			data: data,
+			success: function(json){
+				$.showEditTable("weightsSet_"+type,workoutExerciseId,type);
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				// Error!
+			}
+		});
+	}
 
 };
 
