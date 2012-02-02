@@ -1,17 +1,22 @@
+<?php 
+	session_start();
+	if(!isset($_SESSION['username'])){
+		header("location:login.php");
+	}
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui-1.8.16.custom.css" />
+		<link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui-1.8.17.custom.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="jqgrid/css/ui.jqgrid.css" />
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<link rel="stylesheet" type="text/css" href="css/workout.css" />
 				
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js" type="text/javascript"></script>
 		<script src="js/edit.js" type="text/javascript"></script>
 		<script src="js/common.js" type="text/javascript"></script>
-		<script src="js/graph/jquery.jqplot.min.js" type="text/javascript"></script>
-		<link rel="stylesheet" type="text/css" href="js/graph/jquery.jqplot.min.css" />
-		<script type="text/javascript" src="js/graph/plugins/jqplot.json2.min.js"></script>
 		
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Workout Planner</title>
@@ -53,6 +58,7 @@
 						</ul>
 					</div>
 				</div>	
+				<div class="login">Logged in as: <b><?php echo $_SESSION['username']; ?></b> <a href="logout.php">(logout)</a></div>	
 		</div>
 		<div class="content">
 				<div class="page-content">
