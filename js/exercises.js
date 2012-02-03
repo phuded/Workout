@@ -1,6 +1,6 @@
  $(function(){ 
-	//Exercises page
-	
+	//Exercises page	
+
 	$("#exercise_table").jqGrid({
 		url:'functions/show.php?object=exercise',
 		datatype: 'json',
@@ -25,16 +25,16 @@
 			$.loadGrid("workoutExercise","exercise",id);			
 		} 
 	 });
-	 
+
 	 $("#workoutExercise_table").jqGrid({
 		url:'functions/show.php?object=workoutExercise&filterType=exercise',
 		datatype: 'local',
 		mtype: 'GET',
-		colNames:['Date','Location','Exercise'],
+		colNames:['Date','Location','Owner'],
 		colModel :[ 
 		  {name:'date', index:'date', width:140}, 
 		  {name:'location', index:'location', width:160},
-		  {name:'exercise', index:'exercise', width:200} 		  
+		  {name:'user', index:'user', width:100} 		  
 		],
 		pager: '#workoutExercise_pager',
 		rowNum:5,
@@ -54,6 +54,7 @@
 $.loadGrid = function(object, filterType, objId){
 	//Common
 	var dGrid = $("#"+object+"_table");
+	var user = $(".login span").text();
 	dGrid.clearGridData();
-	dGrid.setGridParam({url:"functions/show.php?objId="+objId+"&object="+object+"&filterType="+filterType,page:1,datatype:"json"}).trigger("reloadGrid");
+	dGrid.setGridParam({url:"functions/show.php?objId="+objId+"&object="+object+"&filterType="+filterType+'&username='+user,page:1,datatype:"json"}).trigger("reloadGrid");
 };

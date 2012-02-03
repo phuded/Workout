@@ -11,7 +11,7 @@
 		  {name:'date', index:'date', width:120}, 
 		  {name:'location', index:'location', width:140},
 		  {name:'duration', index:'duration', width:80},
-		  {name:'shared', index:'shared',width:80},
+		  {name:'user', index:'user',width:80},
 		],
 		pager: '#workout_pager',
 		rowNum:5,

@@ -15,8 +15,7 @@
 				
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js" type="text/javascript"></script>
-		<script src="js/edit.js" type="text/javascript"></script>
-		<script src="js/common.js" type="text/javascript"></script>
+		<script src="js/workout.js" type="text/javascript"></script>
 		
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Workout Planner</title>

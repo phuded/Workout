@@ -10,7 +10,7 @@
 			showExercises ($_REQUEST[sidx],$_REQUEST[sord],$_REQUEST[page],$_REQUEST[rows]); 
 			break;
 		case "workoutExercise":
-			showWorkoutExercises ($_REQUEST[objId],$_REQUEST[filterType],$_REQUEST[sidx],$_REQUEST[sord],$_REQUEST[page],$_REQUEST[rows]); 
+			showWorkoutExercises ($_REQUEST[objId],$_REQUEST[filterType],$_REQUEST[sidx],$_REQUEST[sord],$_REQUEST[page],$_REQUEST[rows],$_REQUEST[username]); 
 			break;
 		case "setPlanned":
 			showSets ($_REQUEST[objId],$_REQUEST[filterType],$_REQUEST[sidx],$_REQUEST[sord]); 
@@ -36,7 +36,7 @@
 		}
 
 		//Query 
-		$sql = "select w.id, w.date, w.location, w.duration, u.username from workout w, user u where w.user_id=u.id and w.date > current_date and (u.id = 0 or u.username = '$user') order by $orderBy $dir LIMIT $start, $limit";
+		$sql = "select w.id, w.date, w.location, w.duration, u.username as user from workout w, user u where w.user_id=u.id and w.date > current_date and (u.id = 0 or u.username = '$user') order by $orderBy $dir LIMIT $start, $limit";
 		
 		$result = mysql_query($sql);
 		
@@ -44,7 +44,7 @@
 				$date = new DateTime($row["date"]);
 				$date = $date->format("d-m-Y H:i");
 				
-				$res[] = array(id=>$row[id],cell=>array($date,$row[location],$row[duration]." mins", $row[username]));
+				$res[] = array(id=>$row[id],cell=>array($date,$row[location],$row[duration]." mins", $row[user]));
 		}
 		
 		$response = array(total=>$totalPages,page=>$page,records=>$count,rows=>$res);
@@ -80,18 +80,18 @@
 		echo json_encode($response);
 	}
 	
-	function showWorkoutExercises ($objId,$filterType,$orderBy,$dir,$page,$limit) {
+	function showWorkoutExercises ($objId,$filterType,$orderBy,$dir,$page,$limit,$user) {
 		$start = $limit*$page - $limit;
 		
 		if($filterType == "workout"){
-			$filter = " we.workout_id = $objId";
+			$filter = "we.workout_id = $objId";
 		}
 		else if($filterType == "exercise"){
-			$filter = " we.exercise_id = $objId";
+			$filter = "we.exercise_id = $objId and (u.id = 0 or u.username = '$user')";
 		}
 		
 		//Count SQL
-		$countSql = "SELECT COUNT(*) as count from workout_exercise we, exercise e, workout w where we.exercise_id = e.id and we.workout_id=w.id and $filter";
+		$countSql = "SELECT COUNT(*) as count from workout_exercise we, exercise e, workout w, user u where we.exercise_id = e.id and we.workout_id=w.id and w.user_id = u.id and $filter";
 			
 		$countResult = mysql_fetch_array(mysql_query($countSql),MYSQL_ASSOC); 
 		$count = $countResult[count];
@@ -104,10 +104,9 @@
 		}
 		
 		//Query
-		$sql = "select we.id as id, we.rank as rank, e.name as exercise, e.type as type, w.date as date, w.location as location from workout_exercise we, exercise e, workout w"
-				. " where we.exercise_id = e.id and we.workout_id=w.id and $filter order by $orderBy $dir LIMIT $start, $limit";
+		$sql = "select we.id as id, we.rank as rank, e.name as exercise, e.type as type, w.date as date, w.location as location, u.username as user from workout_exercise we, exercise e, workout w, user u"
+				. " where we.exercise_id = e.id and we.workout_id=w.id and w.user_id = u.id and $filter order by $orderBy $dir LIMIT $start, $limit";
 	
-		
 		$result = mysql_query($sql);
 
 		while($row = mysql_fetch_array($result)){
@@ -117,7 +116,7 @@
 			else if($filterType == "exercise"){
 				$date = new DateTime($row["date"]);
 				$date = $date->format("d-m-Y H:i");
-				$res[] = array(id=>$row[id],cell=>array($row[date],$row[location],$row[exercise]));
+				$res[] = array(id=>$row[id],cell=>array($row[date],$row[location],$row[user]));
 			}
 		}
 		
