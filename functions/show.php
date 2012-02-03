@@ -1,9 +1,10 @@
 
 <?php
 	include "config.php";
+
 	switch($_REQUEST["object"]){
 		case "workout":
-			showWorkouts ($_REQUEST[sidx],$_REQUEST[sord],$_REQUEST[page],$_REQUEST[rows]); 
+			showWorkouts ($_REQUEST[sidx],$_REQUEST[sord],$_REQUEST[page],$_REQUEST[rows],$_REQUEST[username]); 
 			break;
 		case "exercise":
 			showExercises ($_REQUEST[sidx],$_REQUEST[sord],$_REQUEST[page],$_REQUEST[rows]); 
@@ -19,13 +20,14 @@
 			break;
 	}
 	
-	function showWorkouts ($orderBy,$dir,$page,$limit) {
+	function showWorkouts ($orderBy,$dir,$page,$limit,$user) {
 		$start = $limit*$page - $limit;
 		//Count SQL
-		$countSql = "SELECT COUNT(*) as count from workout where date > current_date";
+		$countSql = "SELECT COUNT(*) as count from workout where date > current_date and (user_id=0 or user_id=(select id from user where username='$user'))";
+
 		$countResult = mysql_fetch_array(mysql_query($countSql),MYSQL_ASSOC); 
 		$count = $countResult[count];
-		
+
 		if($count >0 ){ 
 			$totalPages = ceil($count/$limit);
 		}
@@ -33,15 +35,16 @@
 			$totalPages = 0;
 		}
 
-		//Query
-		$sql = "select * from workout where date > current_date order by $orderBy $dir LIMIT $start, $limit";
+		//Query 
+		$sql = "select w.id, w.date, w.location, w.duration, u.username from workout w, user u where w.user_id=u.id and w.date > current_date and (u.id = 0 or u.username = '$user') order by $orderBy $dir LIMIT $start, $limit";
 		
 		$result = mysql_query($sql);
 		
 		while($row = mysql_fetch_array($result)){
 				$date = new DateTime($row["date"]);
 				$date = $date->format("d-m-Y H:i");
-				$res[] = array(id=>$row[id],cell=>array($date,$row[location],$row[duration]." mins"));
+				
+				$res[] = array(id=>$row[id],cell=>array($date,$row[location],$row[duration]." mins", $row[username]));
 		}
 		
 		$response = array(total=>$totalPages,page=>$page,records=>$count,rows=>$res);

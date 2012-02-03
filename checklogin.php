@@ -14,7 +14,7 @@
 	
 	$encrypted_password=md5($password);
 
-	$sql="SELECT * FROM users WHERE username='$username' and password='$encrypted_password'";
+	$sql="SELECT * FROM user WHERE username='$username' and password='$encrypted_password'";
 	$result=mysql_query($sql);
 
 	$count=mysql_num_rows($result);

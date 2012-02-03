@@ -1,13 +1,17 @@
- $(function(){ 
+ $(function(){
+	
+	var user = $(".login span").text();
+	
 	$("#workout_table").jqGrid({
-		url:'functions/show.php?object=workout',
+		url:'functions/show.php?object=workout&username='+user,
 		datatype: 'json',
 		mtype: 'GET',
-		colNames:['Date', 'Location','Duration'],
+		colNames:['Date', 'Location','Duration','Owner'],
 		colModel :[ 
-		  {name:'date', index:'date', width:140}, 
-		  {name:'location', index:'location', width:160},
-		  {name:'duration', index:'duration', width:100} 		  
+		  {name:'date', index:'date', width:120}, 
+		  {name:'location', index:'location', width:140},
+		  {name:'duration', index:'duration', width:80},
+		  {name:'shared', index:'shared',width:80},
 		],
 		pager: '#workout_pager',
 		rowNum:5,

@@ -52,7 +52,7 @@
 					</ul>
 				</div>
 			</div>	
-			<div class="login">Logged in as: <b><?php echo $_SESSION['username']; ?></b> <a href="logout.php">(logout)</a></div>	
+			<div class="login">Logged in as: <span><?php echo $_SESSION['username']; ?></span> <a href="logout.php">(logout)</a></div>	
 		</div>
 		<div class="content">
 			<div class="page-content">

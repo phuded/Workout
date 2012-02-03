@@ -58,7 +58,7 @@
 						</ul>
 					</div>
 				</div>	
-				<div class="login">Logged in as: <b><?php echo $_SESSION['username']; ?></b> <a href="logout.php">(logout)</a></div>	
+				<div class="login">Logged in as: <span><?php echo $_SESSION['username']; ?></span> <a href="logout.php">(logout)</a></div>	
 		</div>
 		<div class="content">
 				<div class="page-content">
@@ -78,8 +78,13 @@
 								<label for="timehr">Time:</label>
 								<input id="timehr" type="text" MAXLENGTH=2 SIZE=1>:<input id="timemn" type="text" MAXLENGTH=2 SIZE=1>
 								<br/><br/>
-								<label for="duration">Duration:</label>
-								<input id="duration" type="text" MAXLENGTH=3 SIZE=2> mins.
+								<label for="duration">Duration (mins):</label>
+								<input id="duration" type="text" MAXLENGTH=3 SIZE=2>
+								&nbsp;&nbsp;<label for="shared">Shared:</label>
+								<select type="text" name="shared" id="shared">
+									<option value="shared">Shared</option>
+									<option value="personal">Personal</option>
+								</select>
 								<br/><br/>
 								<input class="formButton" type="submit" value="Create/Update" style="height:35px;font-weight:bold;"/>&nbsp;&nbsp;<input id="delWorkout" class="formButton" type="button" style="height:35px;" value="Delete workout" onClick="javascript:$.delWorkout();"/>
 								<br/><br/>

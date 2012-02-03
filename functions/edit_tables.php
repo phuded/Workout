@@ -4,7 +4,7 @@
 	
 	switch($_REQUEST["object"]){
 		case "workout":
-			editWorkouts ($_REQUEST[id],$_REQUEST[filterType]); 
+			editWorkouts ($_REQUEST[id],$_REQUEST[filterType],$_REQUEST[username]); 
 			break;
 		case "exercise":
 			editExercises ($_REQUEST[id],$_REQUEST[filterType]);
@@ -17,23 +17,31 @@
 			break;
 	}
 	
-	function editWorkouts ($id,$filterType) {
+	function editWorkouts ($id,$filterType,$user) {
 		if(isset($id)){
 	
-			$sql = "select * from workout where id = $id";
+			$sql = "select w.id, w.date, w.location, w.duration, u.username from workout w, user u where w.user_id=u.id and w.id = $id";
 			$result = mysql_query($sql);
 			
 			if($result) {
 				$row = mysql_fetch_assoc($result);
 				$date = strtotime($row[date]);
-				$output = array(id=>$row[id],location=>$row[location],date=>$date,duration=>$row[duration]);
+				
+				if($row[username] == "Shared"){
+					$shared = "shared";
+				}
+				else{
+					$shared = "personal";
+				}
+				
+				$output = array(id=>$row[id],location=>$row[location],date=>$date,duration=>$row[duration],shared=>$shared);
 			}
 
 			echo json_encode($output);
 		}
 		else{
-			$sql = "select * from workout order by date asc";
-			
+			$sql = "select w.id, w.date, w.location, w.duration, u.username from workout w, user u where w.user_id=u.id and (u.id=0 or u.username='$user') order by date asc";
+
 			$result = mysql_query($sql);
 			
 			if(mysql_num_rows($result) > 0){
@@ -42,16 +50,19 @@
 							. "<th>Date</th>"
 							. "<th>Location</th>"
 							. "<th>Duration</th>"
+							. "<th>Owner</th>"
 							. "<th></th>"
 						 . "</tr>";
 
 				while($row = mysql_fetch_array($result)){
 					$date = new DateTime($row["date"]);
 					$date = $date->format("d-m-Y H:i");
+					
 					$output .= "<tr id=\"workout_$row[id]\">"
 							. "<td>$date</td>"
 							. "<td>$row[location]</td>"
 							. "<td>$row[duration] mins </td>"
+							. "<td>$row[username]</td>"
 							. "<td><a href=\"javascript:$.selectWorkout($row[id])\"><img src=\"images/arrow_right_fat.png\" title=\"Select Workout\"/></a></td>"
 							. "</tr>";
 				}

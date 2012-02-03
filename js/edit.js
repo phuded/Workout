@@ -1,5 +1,5 @@
 $.showEditTable = function(object,id,filterType,selectAfter){
-
+	var username = $(".login span").text();
 	$('#'+object+' .inner-content').html('<img class="spinner" src="images/loading.gif"/>');
 	
 	obj = object.split("_")[0];
@@ -7,7 +7,7 @@ $.showEditTable = function(object,id,filterType,selectAfter){
 	$.ajax({
 		type: "GET",
 		url: "functions/edit_tables.php",
-		data: "object="+obj+(id?"&id="+id+"&filterType="+filterType:""),
+		data: "object="+obj+"&username="+username+(id?"&id="+id+"&filterType="+filterType:""),
 		success: function(msg){
 			//Add content
 			$('#'+object+' .inner-content').html($.trim(msg));
@@ -57,6 +57,17 @@ $.loadWorkout = function(id){
 			$("#timemn").val(pad(date.getMinutes()));
 			$("#location").val(json.location);
 			$("#duration").val(json.duration);
+			
+			var shared = $("#shared");
+			
+			shared.val(json.shared);
+			
+			if(json.shared == "shared"){
+				shared.attr('disabled',true);
+			}
+			else{
+				shared.attr('disabled',false);
+			}
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			// Error!
@@ -68,6 +79,7 @@ $.loadWorkout = function(id){
 //When user resets the form - do this also
 $.unselectWorkout = function(){
 	$("#workout .inner-content table tr td").removeAttr("style");
+	$("#shared").attr('disabled',false);
 	$.resetSubPanels(false);
 };
 
@@ -105,7 +117,8 @@ $.updateWorkout = function(){
 				id:$("#workoutId").val(),
 				dateTime:dateString,
 				location:$("#location").val(),
-				duration:$("#duration").val()
+				duration:$("#duration").val(),
+				username:$("#shared").val()=="shared"?"Shared":$(".login span").text()
 			};
 			
 	$.ajax({

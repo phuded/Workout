@@ -48,7 +48,7 @@
 							</tr>
 						</table>
 					</form>
-					<p>Use <i>guest/guest</i> if you don't have an account.</p>
+					<p>Create a new user <a href="createuser.php">here.</a></p>
 				</div>
 			</div>
 		</div>

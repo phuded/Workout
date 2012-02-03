@@ -4,7 +4,7 @@
 	
 	switch($_REQUEST["action"]){
 		case "updateworkout":
-			updateWorkout ($_REQUEST[id],$_REQUEST[location],$_REQUEST[dateTime],$_REQUEST[duration]); 
+			updateWorkout ($_REQUEST[id],$_REQUEST[location],$_REQUEST[dateTime],$_REQUEST[duration],$_REQUEST[username]); 
 			break;
 		case "delworkout":
 			delWorkout ($_REQUEST[id]); 
@@ -26,22 +26,23 @@
 			break;
 	}
 	
-	function updateWorkout ($id,$location,$dateTime,$duration) {
+	function updateWorkout ($id,$location,$dateTime,$duration,$user) {
 		//existing
 		if(!empty($id)){
 			$sql = "update workout set ".
 					"location = '$location',".
 					"date = '$dateTime',".
-					"duration = $duration".
+					"duration = $duration, ".
+					"user_id = (select id from user where username ='$user')".
 					" where id = $id";
 					
 			$result = mysql_query($sql);
 			$res = array ("success"=>$result);
 		}
 		else{
-			$sql = "insert into workout (location,date,duration)".
-				   " values ('$location','$dateTime',$duration)";
-					
+			$sql = "insert into workout (location,date,duration,user_id)".
+				   " values ('$location','$dateTime',$duration,(select id from user where username='$user'))";
+			
 			$result = mysql_query($sql);
 			$res = array ("success"=>$result);
 		}
